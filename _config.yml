@@ -1,9 +1,35 @@
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 baseurl: "" # the subpath of your site, e.g. /blog
-title: "" # the name of your site, e.g. ACME Corp.
+title: "Park Sanghyeong.github.io" # the name of your site, e.g. ACME Corp.
 
 plugins:
   - jekyll-postcss
+  - jekyll-toc
 
 postcss:
   cache: false
+
+
+markdown: kramdown
+kramdown:
+  input: GFM # GitHub Flavored Markdown 활성화
+  syntax_highlighter: rouge # 코드 블록 하이라이팅
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+
+# Table of Contents
+toc:
+  min_level: 2 # h2 부터 목차에 포함
+  max_level: 4 # h4 까지 목차에 포함
+  ordered_list: false # 순서 없는 목록으로 생성
+  list_class: "toc"
+  sublist_class: "toc-sub"
+  item_class: "toc-item"
+  link_class: "toc-link"
+
+
+# --- 중요: 프로젝트 컬렉션 설정 ---
+# _projects 폴더를 Jekyll이 인식하고, 각 파일을 개별 페이지로 만들도록 설정합니다.
+collections:
+  projects:
+    output: false

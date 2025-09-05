@@ -1,12 +1,121 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <title>{{ page.title }} - {{ site.title }}</title>
-    <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
-  </head>
-  <body>
-    {{ content }}
-  </body>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }}</title>
+  <link href="/assets/css/main.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 antialiased">
+
+<div class="min-h-screen flex flex-col">
+  <header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-lg border-b border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="{{ '/' | relative_url }}" class="text-2xl font-black tracking-tighter text-slate-900 dark:text-white">
+          {{ site.title | default: "Portfolio" }}
+        </a>
+        <nav>
+          <a href="#" class="text-slate-600 dark:text-slate-300 font-medium hover:text-blue-600 dark:hover:text-blue-500 transition-colors">About</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-grow">
+    <section class="text-center py-20 sm:py-28">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tighter text-slate-900 dark:text-white">
+          <span class="bg-gradient-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent">
+            설계와 문제 해결 기록
+          </span>
+        </h1>
+        <p class="mt-6 max-w-3xl mx-auto text-lg text-slate-600 dark:text-slate-400">
+          각 프로젝트의 설계 과정, 기술적 문제 해결 과정 등을 포스트 형식으로 기록하는 저장소입니다.
+        </p>
+      </div>
+    </section>
+
+    <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        {% for project in site.projects %}
+        {% assign project_posts = site.posts | where: "project", project.title | sort: "date" %}
+        {% assign latest_post = project_posts | last %}
+        {% assign post_count = project_posts | size %}
+
+        {% if forloop.first %}
+        <div class="group lg:col-span-2 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700">
+          <div class="md:flex h-full">
+            {% if project.image %}
+            <div class="md:w-1/2 aspect-video md:aspect-auto overflow-hidden">
+              <img src="{{ project.image | relative_url | default: 'https://via.placeholder.com/800x600' }}" alt="{{ project.title }}" class="w-full h-full object-cover">
+            </div>
+            {% endif %}
+            <div class="p-6 md:w-1/2 flex flex-col">
+              <header>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{{ project.title }}</h2>
+                <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">{{ project.description }}</p>
+              </header>
+              <div class="mt-4 pt-4 flex flex-col flex-grow">
+                <div class="flex flex-wrap gap-2">
+                  {% for tag in project.tags %}
+                  <span class="text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-1 px-2 rounded">{{ tag }}</span>
+                  {% endfor %}
+                </div>
+                <div class="mt-auto pt-4 text-xs font-mono text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-4">
+                  <span>{{ post_count }} POSTS</span> &middot; <span>UPDATED: {{ latest_post.date | date: "%Y-%m-%d" }}</span>
+                </div>
+              </div>
+              <a href="{{ latest_post.url | relative_url }}" class="absolute inset-0" aria-label="{{ project.title }}"></a>
+            </div>
+          </div>
+        </div>
+
+        {% else %}
+        <div class="group relative bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700 flex flex-col">
+          {% if project.image %}
+          <div class="aspect-video overflow-hidden">
+            <img src="{{ project.image | relative_url | default: 'https://via.placeholder.com/800x600' }}" alt="{{ project.title }}" class="w-full h-full object-cover">
+          </div>
+          {% endif %}
+          <div class="p-6 flex flex-col flex-grow">
+            <header>
+              <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{{ project.title }}</h2>
+              <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{{ project.description }}</p>
+            </header>
+            <div class="mt-auto pt-4">
+              <div class="flex flex-wrap gap-2">
+                {% for tag in project.tags %}
+                <span class="text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-1 px-2 rounded">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <a href="{{ latest_post.url | relative_url }}" class="absolute inset-0" aria-label="{{ project.title }}"></a>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+      </div>
+    </main>
+  </div>
+
+  <footer class="bg-slate-100 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+      <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
 </html>

@@ -1,16 +1,16 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        './_drafts/**/*.html',
-        './_includes/**/*.html',
-        './_layouts/**/*.html',
-        './_posts/*.md',
-        './*.md',
-        './*.html',
+        './_includes/**/*.{html,js}',
+        './_layouts/**/*.{html,js}',
+        './_posts/**/*.md',
+        './_projects/**/*.md',
+        './*.{html,js,md}' // index.html, about.md 등 루트 파일 포함
     ],
     theme: {
-        theme: {
-            extend: {},
-        },
+        extend: {},
     },
-    plugins: []
+    plugins: [
+        require('@tailwindcss/typography'), // 'prose' 클래스를 사용하기 위해 필수!
+    ],
 }
